@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fake-data-api
+  namespace: fake-data
+  labels:
+    app: fake-data-api
+spec:
+  selector:
+    matchLabels:
+      app: fake-data-api
+  template:
+    metadata:
+      labels:
+        app: fake-data-api
+    spec:
+      containers:
+      - name: fake-data-api
+        image: gregmika/fake-data-api:v1
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /data
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /data
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5

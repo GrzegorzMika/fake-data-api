@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fake-data-api
+  namespace: fake-data
+spec:
+  selector:
+    app: fake-data-api
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080

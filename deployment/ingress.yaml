@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fake-data-api
+  namespace: fake-data
+  labels:
+    name: fake-data-api
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+  - host: api.strzyga.gregdev.dev
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: fake-data-api
+            port: 
+              number: 8080
+  tls:
+  - hosts:
+    - api.strzyga.gregdev.dev
+    secretName: letsencrypt-prod
