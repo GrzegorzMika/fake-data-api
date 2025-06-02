@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: fake-data-api
-        image: gregmika/fake-data-api:v1
+        image: gregmika/fake-data-api:v6
         resources:
           requests:
             memory: "64Mi"
@@ -24,17 +24,20 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
+        env:
+          - name: JWKS_URL
+            value: "http://keycloak.idp.svc.cluster.local:8080/realms/development/protocol/openid-connect/certs"
         ports:
         - containerPort: 8080
         readinessProbe:
           httpGet:
-            path: /data
+            path: /health
             port: 8080
           initialDelaySeconds: 5
           periodSeconds: 5
         livenessProbe:
           httpGet:
-            path: /data
+            path: /health
             port: 8080
           initialDelaySeconds: 5
           periodSeconds: 5
